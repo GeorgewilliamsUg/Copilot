@@ -25,10 +25,23 @@
     <!-- Rendered snake + food cells go inside this board -->
     <div class="game-board" id="gameBoard"></div>
 
-    <!-- Controls section: instructions + restart button -->
+    <!-- Controls section: instructions + action buttons -->
     <div class="controls">
       <p>Use arrow keys or WASD to move.</p>
-      <button id="restartBtn">Restart</button>
+      <div class="buttons">
+        <button id="pauseBtn">Pause</button>
+        <button id="restartBtn">Restart</button>
+      </div>
+    </div>
+
+    <!-- Touch controls (visible on mobile) -->
+    <div class="touch-controls" aria-label="Touch controls">
+      <button class="touch-btn" data-dir="up" aria-label="Up">↑</button>
+      <div class="touch-row">
+        <button class="touch-btn" data-dir="left" aria-label="Left">←</button>
+        <button class="touch-btn" data-dir="down" aria-label="Down">↓</button>
+        <button class="touch-btn" data-dir="right" aria-label="Right">→</button>
+      </div>
     </div>
 
     <!-- Overlay shown when the game ends -->

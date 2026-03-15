@@ -14,7 +14,9 @@ const highScoreEl = document.getElementById("highScore");
 const finalScoreEl = document.getElementById("finalScore");
 const gameOverOverlay = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restartBtn");
+const pauseBtn = document.getElementById("pauseBtn");
 const playAgainBtn = document.getElementById("playAgainBtn");
+const touchButtons = Array.from(document.querySelectorAll(".touch-btn"));
 
 // --- Game state ---
 let snake = []; // Ordered list of segments (from tail -> head)
@@ -24,6 +26,7 @@ let food = null; // Current food position
 let score = 0; // Current score
 let highScore = 0; // Best session score
 let tickTimer = null; // Interval handle for game loop
+let isPaused = false; // Pause state
 
 // --- Utility helpers ---
 
@@ -86,6 +89,10 @@ function placeFood() {
  * Reset the game state and start the game loop.
  */
 function resetGame() {
+  // Ensure we're not paused when starting a new game.
+  isPaused = false;
+  setPauseButton();
+
   // Start with a 2-segment snake in the center of the board.
   snake = [
     { x: Math.floor(BOARD_SIZE / 2) - 1, y: Math.floor(BOARD_SIZE / 2) },
@@ -132,6 +139,33 @@ function setGameOver() {
     updateScore();
   }
 
+  stopGameLoop();
+}
+
+function pauseGame() {
+  if (isPaused) return;
+  isPaused = true;
+  setPauseButton();
+  stopGameLoop();
+}
+
+function resumeGame() {
+  if (!isPaused) return;
+  isPaused = false;
+  setPauseButton();
+  tickTimer = setInterval(tick, START_SPEED);
+}
+
+function togglePause() {
+  if (isPaused) resumeGame(); else pauseGame();
+}
+
+function setPauseButton() {
+  if (!pauseBtn) return;
+  pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+}
+
+function stopGameLoop() {
   if (tickTimer) {
     clearInterval(tickTimer);
     tickTimer = null;
@@ -142,6 +176,8 @@ function setGameOver() {
  * Called once per tick to advance the game by one step.
  */
 function tick() {
+  if (isPaused) return;
+
   // Apply the queued direction change.
   direction = nextDirection;
 
@@ -194,6 +230,15 @@ function render() {
 /**
  * Handle keyboard input and queue direction changes.
  */
+function setDirection(newDir) {
+  // Prevent reversing direction directly (e.g., from left to right).
+  const isOpposite =
+    newDir.x === -direction.x && newDir.y === -direction.y;
+  if (isOpposite) return;
+
+  nextDirection = newDir;
+}
+
 function handleKey(event) {
   const key = event.key;
   const dirMap = {
@@ -207,15 +252,15 @@ function handleKey(event) {
     d: { x: 1, y: 0 },
   };
 
+  if (key === "p" || key === "P") {
+    togglePause();
+    return;
+  }
+
   const next = dirMap[key];
   if (!next) return; // Ignore other keys.
 
-  // Prevent reversing direction directly (e.g., from left to right).
-  const isOpposite =
-    next.x === -direction.x && next.y === -direction.y;
-  if (isOpposite) return;
-
-  nextDirection = next;
+  setDirection(next);
 }
 
 /**
@@ -228,8 +273,26 @@ function attachEvents() {
     resetGame();
   });
 
+  pauseBtn.addEventListener("click", () => {
+    togglePause();
+  });
+
   playAgainBtn.addEventListener("click", () => {
     resetGame();
+  });
+
+  touchButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const dir = btn.dataset.dir;
+      const dirMap = {
+        up: { x: 0, y: -1 },
+        down: { x: 0, y: 1 },
+        left: { x: -1, y: 0 },
+        right: { x: 1, y: 0 },
+      };
+      const next = dirMap[dir];
+      if (next) setDirection(next);
+    });
   });
 }
 

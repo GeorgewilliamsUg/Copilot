@@ -145,23 +145,17 @@ function tick() {
   // Apply the queued direction change.
   direction = nextDirection;
 
-  // Determine next head position.
+  // Determine next head position (wrap around the board edges).
   const head = {
-    x: snake[snake.length - 1].x + direction.x,
-    y: snake[snake.length - 1].y + direction.y,
+    x: (snake[snake.length - 1].x + direction.x + BOARD_SIZE) % BOARD_SIZE,
+    y: (snake[snake.length - 1].y + direction.y + BOARD_SIZE) % BOARD_SIZE,
   };
-
-  const collidedWithWall =
-    head.x < 0 ||
-    head.y < 0 ||
-    head.x >= BOARD_SIZE ||
-    head.y >= BOARD_SIZE;
 
   const collidedWithSelf = snake.some(
     (segment) => segment.x === head.x && segment.y === head.y
   );
 
-  if (collidedWithWall || collidedWithSelf) {
+  if (collidedWithSelf) {
     setGameOver();
     return;
   }

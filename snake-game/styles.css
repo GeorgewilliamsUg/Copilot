@@ -1,0 +1,152 @@
+/*
+  Snake game styling:
+  - The board is a square flex layout.
+  - Snake and food cells are absolutely positioned inside the board.
+  - The overlay is used to show the game-over screen.
+*/
+
+/* Reset default box sizing for easier layout calculations */
+* {
+  box-sizing: border-box;
+}
+
+/* Full-page background and centering */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1b1d2a 0%, #05060b 100%);
+  color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Main container for the game UI */
+.container {
+  width: min(520px, 95vw);
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(24, 26, 43, 0.85);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+}
+
+/* Header layout for title + score display */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.info {
+  display: flex;
+  gap: 1rem;
+  font-weight: 600;
+}
+
+/* Board layout for the grid area */
+.game-board {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #111429;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base styling for all game cells (snake + food) */
+.cell {
+  position: absolute;
+  width: calc(100% / 20); /* matches BOARD_SIZE in script.js */
+  height: calc(100% / 20);
+  border-radius: 4px;
+}
+
+/* Snake body segment styling */
+.cell.snake {
+  background: linear-gradient(145deg, #4dedb7, #0ca78f);
+  box-shadow: 0 0 12px rgba(79, 236, 199, 0.4);
+}
+
+/* Food styling (small dot to collect) */
+.cell.food {
+  background: radial-gradient(circle at 40% 40%, #ffb347, #ff5e5e);
+  box-shadow: 0 0 14px rgba(255, 94, 94, 0.55);
+}
+
+/* Controls section (buttons + instructions) */
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.controls p {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+/* Button styling shared between restart/play again */
+button {
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #10b981);
+  color: #0a0e13;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Overlay shown when the game ends */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1.5rem;
+}
+
+/* Hide overlay by default */
+.overlay.hidden {
+  display: none;
+}
+
+.overlay__content {
+  background: rgba(19, 22, 39, 0.95);
+  border-radius: 18px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+}
+
+.overlay__content h2 {
+  margin: 0 0 0.6rem;
+}
+
+.overlay__content p {
+  margin: 0.2rem 0 1.1rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}

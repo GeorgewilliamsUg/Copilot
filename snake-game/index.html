@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for proper encoding and responsive layout -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Classic Snake Game</title>
+
+  <!-- Main stylesheet for UI and board styling -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Container for the full game UI -->
+  <div class="container">
+    <!-- Header with title and score display -->
+    <header>
+      <h1>Classic Snake</h1>
+      <div class="info">
+        <span>Score: <span id="score">0</span></span>
+        <span>High Score: <span id="highScore">0</span></span>
+      </div>
+    </header>
+
+    <!-- Rendered snake + food cells go inside this board -->
+    <div class="game-board" id="gameBoard"></div>
+
+    <!-- Controls section: instructions + restart button -->
+    <div class="controls">
+      <p>Use arrow keys or WASD to move.</p>
+      <button id="restartBtn">Restart</button>
+    </div>
+
+    <!-- Overlay shown when the game ends -->
+    <div class="overlay hidden" id="gameOver">
+      <div class="overlay__content">
+        <h2>Game Over</h2>
+        <p>Your score: <span id="finalScore">0</span></p>
+        <button id="playAgainBtn">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game logic and rendering code -->
+  <script src="script.js"></script>
+</body>
+</html>

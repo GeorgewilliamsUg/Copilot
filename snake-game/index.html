@@ -19,16 +19,63 @@
       <div class="info">
         <span>Score: <span id="score">0</span></span>
         <span>High Score: <span id="highScore">0</span></span>
+        <span class="timer hidden">Time: <span id="timer">0</span>s</span>
       </div>
     </header>
 
     <!-- Rendered snake + food cells go inside this board -->
     <div class="game-board" id="gameBoard"></div>
 
+    <!-- Gameplay settings -->
+    <div class="settings">
+      <div class="setting">
+        <label for="modeSelect">Mode</label>
+        <select id="modeSelect">
+          <option value="classic" selected>Classic</option>
+          <option value="timed">Timed</option>
+          <option value="survival">Survival</option>
+          <option value="challenge">Challenge</option>
+          <option value="autopilot">Auto Play</option>
+        </select>
+      </div>
+
+      <div class="setting">
+        <label for="boardSizeSelect">Board size</label>
+        <select id="boardSizeSelect">
+          <option value="16">16×16</option>
+          <option value="20" selected>20×20</option>
+          <option value="24">24×24</option>
+          <option value="30">30×30</option>
+        </select>
+      </div>
+
+      <div class="setting">
+        <label for="themeSelect">Theme</label>
+        <select id="themeSelect">
+          <option value="default" selected>Default</option>
+          <option value="neon">Neon</option>
+          <option value="retro">Retro</option>
+        </select>
+      </div>
+
+      <div class="setting">
+        <label class="checkbox">
+          <input type="checkbox" id="soundToggle" checked />
+          Sound
+        </label>
+      </div>
+    </div>
+
     <!-- Controls section: instructions + restart button -->
     <div class="controls">
       <p>Use arrow keys or WASD to move.</p>
       <button id="restartBtn">Restart</button>
+    </div>
+
+    <!-- Leaderboard (top scores) -->
+    <div class="leaderboard" id="leaderboard">
+      <h2>Top Scores</h2>
+      <ol id="leaderboardList"></ol>
     </div>
 
     <!-- Overlay shown when the game ends -->

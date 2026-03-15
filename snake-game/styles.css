@@ -51,6 +51,76 @@ header h1 {
   font-weight: 600;
 }
 
+.timer {
+  opacity: 0.8;
+}
+
+.timer.hidden {
+  display: none;
+}
+
+.settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0.75rem;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: rgba(23, 25, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.setting {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.setting label {
+  font-weight: 600;
+}
+
+.setting select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 14, 22, 0.9);
+  color: #f5f5f5;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.leaderboard {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 14px;
+  background: rgba(20, 22, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.leaderboard ol {
+  padding-left: 1.2rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.leaderboard li {
+  margin: 0.15rem 0;
+}
+
 /* Board layout for the grid area */
 .game-board {
   width: 100%;
@@ -65,9 +135,29 @@ header h1 {
 /* Base styling for all game cells (snake + food) */
 .cell {
   position: absolute;
-  width: calc(100% / 20); /* matches BOARD_SIZE in script.js */
-  height: calc(100% / 20);
   border-radius: 4px;
+  transition: left 0.12s linear, top 0.12s linear;
+}
+
+/* Particle effect for eating food */
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle 400ms ease-out forwards;
+}
+
+@keyframes particle {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.4);
+  }
 }
 
 /* Snake body segment styling */
@@ -80,6 +170,30 @@ header h1 {
 .cell.food {
   background: radial-gradient(circle at 40% 40%, #ffb347, #ff5e5e);
   box-shadow: 0 0 14px rgba(255, 94, 94, 0.55);
+}
+
+/* Obstacle styling (survival mode) */
+.cell.obstacle {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* Power-up styling */
+.cell.powerup {
+  background: radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.cell.powerup.slow {
+  background: radial-gradient(circle at 40% 40%, #71d7ff, #0c7ecb);
+}
+
+.cell.powerup.ghost {
+  background: radial-gradient(circle at 40% 40%, #d7b8ff, #7f5cff);
+}
+
+.cell.powerup.double {
+  background: radial-gradient(circle at 40% 40%, #ffd46a, #ff8c00);
 }
 
 /* Controls section (buttons + instructions) */
@@ -149,4 +263,34 @@ button:active {
   margin: 0.2rem 0 1.1rem;
   line-height: 1.4;
   opacity: 0.85;
+}
+
+/* Theme overrides */
+body.theme-neon .cell.snake {
+  background: linear-gradient(145deg, #ff4dff, #66e6ff);
+  box-shadow: 0 0 16px rgba(255, 77, 255, 0.55);
+}
+
+body.theme-neon .cell.food {
+  background: radial-gradient(circle at 40% 40%, #ffec5c, #ff6b6b);
+  box-shadow: 0 0 18px rgba(255, 108, 108, 0.6);
+}
+
+body.theme-retro {
+  background: radial-gradient(circle at top, #0b0b1c 0%, #080814 100%);
+}
+
+body.theme-retro .container {
+  background: rgba(8, 8, 16, 0.92);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+}
+
+body.theme-retro .cell.snake {
+  background: linear-gradient(135deg, #7b37ff, #38c8ff);
+  box-shadow: 0 0 10px rgba(56, 200, 255, 0.45);
+}
+
+body.theme-retro .cell.food {
+  background: radial-gradient(circle at 40% 40%, #ffd132, #ff615c);
+  box-shadow: 0 0 12px rgba(255, 97, 92, 0.45);
 }
